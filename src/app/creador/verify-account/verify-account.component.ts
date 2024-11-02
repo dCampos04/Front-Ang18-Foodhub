@@ -4,6 +4,7 @@ import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { HeaderExploradorComponent } from '../../explorador/header-explorador/header-explorador.component';
 import { IniciarSesionComponent } from '../../explorador/iniciar-sesion/iniciar-sesion.component';
+import {HeaderCreadorComponent} from "../header-creador/header-creador.component";
 
 @Component({
   selector: 'app-verify-account',
@@ -14,6 +15,7 @@ import { IniciarSesionComponent } from '../../explorador/iniciar-sesion/iniciar-
     HeaderExploradorComponent,
     IniciarSesionComponent,
     RouterLink,
+    HeaderCreadorComponent,
   ],
   templateUrl: './verify-account.component.html',
   styleUrl: './verify-account.component.css',
@@ -43,7 +45,7 @@ export default class VerifyAccountComponent {
         (error) => {
           console.error('Error al confirmar cuenta:', error.error.message);
           this.expired = true;
-          
+
            if (error.status === 409) {
             this.errorMessage = "Esta cuenta ya ha sido confirmada.";
           } else if (error.status === 404) {

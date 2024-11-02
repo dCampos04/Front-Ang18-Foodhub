@@ -1,20 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { CreadorDTO } from '../../interfaces/CreadorDTO';
 import { CreadorService } from '../../services/creador.service';
 import { environment } from '../../../environments/environment.development';
 import { CreadorProfileDTO } from '../../interfaces/CreadorProfileDTO';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { catchError, of, retry } from 'rxjs';
+import {catchError, of, retry, Subscription} from 'rxjs';
+import {HeaderCreadorComponent} from "../header-creador/header-creador.component";
 
 @Component({
   selector: 'app-perfil-creador',
   standalone: true,
-  imports: [],
+  imports: [
+    HeaderCreadorComponent
+  ],
   templateUrl: './perfil-creador.component.html',
   styleUrl: './perfil-creador.component.css',
 })
-export class PerfilCreadorComponent implements OnInit {
+export class PerfilCreadorComponent implements OnInit, OnDestroy {
   public creadorDTO: CreadorProfileDTO = {
     nombre: '',
     apellidoPaterno: '',
@@ -37,6 +40,8 @@ export class PerfilCreadorComponent implements OnInit {
 
   public urlImages: string = `${environment.apiUrl}/imagenes/`;
 
+  suscription: Subscription = new Subscription();
+
   constructor(
     private creadorService: CreadorService,
     private authService: AuthService,
@@ -45,6 +50,15 @@ export class PerfilCreadorComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtenerDatosPerfilCreador();
+
+    this.suscription = this.creadorService.refresh$.subscribe(() => {
+      this.obtenerDatosPerfilCreador();
+
+    })
+  }
+
+  ngOnDestroy() {
+    this.suscription.unsubscribe();
   }
 
   obtenerDatosPerfilCreador() {
@@ -69,7 +83,7 @@ export class PerfilCreadorComponent implements OnInit {
       }
     );
   }
-  
+
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0] as File;
     this.convertToBase64();

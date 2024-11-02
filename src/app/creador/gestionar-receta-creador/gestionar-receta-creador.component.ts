@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CreadorService } from '../../services/creador.service';
 import {RouterLink} from "@angular/router";
+import {HeaderCreadorComponent} from "../header-creador/header-creador.component";
 
 @Component({
   selector: 'app-gestionar-receta-creador',
   standalone: true,
   imports: [
-    RouterLink
+    RouterLink,
+    HeaderCreadorComponent
   ],
   templateUrl: './gestionar-receta-creador.component.html',
   styleUrl: './gestionar-receta-creador.component.css'
@@ -17,7 +19,9 @@ export class GestionarRecetaCreadorComponent implements OnInit {
   constructor(private creadorService: CreadorService) {}
 
   ngOnInit(): void {
+
     this.obtenerCantidadRecetas();
+
   }
 
   obtenerCantidadRecetas() {

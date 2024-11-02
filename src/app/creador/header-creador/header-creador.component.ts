@@ -29,7 +29,7 @@ export class HeaderCreadorComponent implements OnInit{
   };
   public urlImages: string = `${environment.apiUrl}/imagenes/`;
 
-
+  showHeader: boolean = true;
 
   public tipo: string = '';
 
@@ -38,6 +38,12 @@ export class HeaderCreadorComponent implements OnInit{
   ngOnInit() {
 
     this.obtenerDatosPerfilCreador();
+
+    console.log("ruta: "+ this.router.url)
+
+    if(this.router.url === '/ingresar/miPerfil'){
+      this.showHeader = false;
+    }
 
   }
 

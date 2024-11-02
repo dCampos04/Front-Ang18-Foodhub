@@ -8,11 +8,12 @@ import { RecetaDTO } from '../../interfaces/RecetaDTO';
 import { FormsModule } from '@angular/forms';
 import { ConnectionStatusService } from '../../services/connection-status.service';
 import { catchError, of, retry } from 'rxjs';
+import {HeaderCreadorComponent} from "../header-creador/header-creador.component";
 
 @Component({
   selector: 'app-crear-receta-creador',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, HeaderCreadorComponent],
   templateUrl: './crear-receta-creador.component.html',
   styleUrl: './crear-receta-creador.component.css',
 })
@@ -173,6 +174,26 @@ export class CrearRecetaCreadorComponent {
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0] as File;
     this.convertToBase64();
+  }
+
+
+  limitarCifras(event: Event, maxLength: number) {
+    const inputElement = event.target as HTMLInputElement;
+
+    // Si el valor tiene más caracteres que maxLength, se corta a maxLength
+    if (inputElement.value.length > maxLength) {
+      inputElement.value = inputElement.value.slice(0, maxLength);
+    }
+
+    // Actualiza el valor en el modelo de Angular
+    const fieldName = inputElement.name;
+    if (fieldName === 'tiempoCoccion') {
+      this.tiempoCoccion = Number(inputElement.value);
+    } else if (fieldName === 'porciones') {
+      this.porciones = Number(inputElement.value);
+    } else if (fieldName === 'calorias') {
+      this.calorias = Number(inputElement.value);
+    }
   }
 
   convertToBase64() {

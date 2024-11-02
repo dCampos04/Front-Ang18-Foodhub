@@ -43,6 +43,14 @@ export class CardBody2Component implements OnInit {
   }
 
   insertarEspaciosAutomaticos(texto: string): string {
-    return texto.replace(/([a-z])([A-Z])/g, '$1 $2');
+    // Añade un espacio entre palabras camel case (ejemplo: "HelloWorld" -> "Hello World")
+    texto = texto.replace(/([a-z])([A-Z])/g, '$1 $2');
+
+    // Añade un espacio cada 15 caracteres si el texto no tiene espacios
+    if (!/\s/.test(texto)) {
+      texto = texto.replace(/(.{20})/g,'$1 ');
+    }
+
+    return texto;
   }
 }
