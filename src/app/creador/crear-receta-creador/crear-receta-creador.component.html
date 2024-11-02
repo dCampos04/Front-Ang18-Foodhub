@@ -1,0 +1,241 @@
+<main>
+  <form id="recipeForm" class="flex flex-col lg:flex-row lg:justify-between bg-white p-6 rounded-lg shadow-lg max-w-6xl mx-auto">
+    <div class="column w-full lg:w-1/3 p-4">
+      <h3>Escribe la información de tu Receta:</h3>
+      <h4>Sube una foto de tu receta y completa los campos</h4>
+      <input
+        (change)="onFileSelected($event)"
+        class="input-image"
+        [class.error]="errorRegistro"
+        type="file"
+        accept="image/*"
+        required
+      />
+      <div class="form-text">* Formato: JPEG, PNG</div>
+
+      @if (errores['imagen']) {
+        <div class="text-start error-message text-red-500 text-sm -mt-3 mb-4 ml-2">{{ errores['imagen'] }}</div>
+      }
+
+      <input
+        class="input-title"
+        [class.error]="errorRegistro"
+        type="text"
+        placeholder="Título *"
+        maxlength="100"
+        required
+        name="titulo"
+        [(ngModel)]="titulo"
+        [ngModelOptions]="{ standalone: true }"
+      />
+
+
+      @if (errores['titulo']) {
+        <div class="text-start error-message text-red-500 text-sm -mt-6 mb-4 ml-2">{{ errores['titulo'] }}</div>
+      }
+
+      <textarea
+        placeholder="Descripción *"
+        [class.error]="errorRegistro"
+        rows="5"
+        maxlength="250"
+        required
+        name="descripcion"
+        class=""
+        [(ngModel)]="descripcion"
+        [ngModelOptions]="{ standalone: true }"
+      ></textarea>
+
+      @if (errores['descripcion']) {
+        <div class="text-start error-message text-red-500 text-sm -mt-5 mb-6 ml-2">{{ errores['descripcion'] }}</div>
+      }
+
+      <div class="input-with-addon">
+        <input
+          type="number"
+          [class.error]="errorRegistro"
+          placeholder="Tiempo de Preparación *"
+          required
+          name="tiempoCoccion"
+          [(ngModel)]="tiempoCoccion"
+          [ngModelOptions]="{ standalone: true }"
+        />
+        <div class="addon">min.</div>
+      </div>
+
+      @if (errores['tiempoCoccion']) {
+        <div class="text-start error-message text-red-500 text-sm -mt-7 mb-6 ml-2">{{ errores['tiempoCoccion'] }}</div>
+      }
+
+      <div class="input-with-addon">
+        <input
+          type="number"
+          [class.error]="errorRegistro"
+          placeholder="Cantidad de porciones *"
+          required
+          name="porciones"
+          [(ngModel)]="porciones"
+          [ngModelOptions]="{ standalone: true }"
+        />
+        <div class="addon">porc.</div>
+      </div>
+
+      @if (errores['porciones']) {
+        <div class="text-start error-message text-red-500 text-sm -mt-7 mb-6 ml-2">{{ errores['porciones'] }}</div>
+      }
+
+      <div class="input-with-addon">
+        <input
+          type="number"
+          [class.error]="errorRegistro"
+          placeholder="Cantidad de calorías *"
+          required
+          name="calorias"
+          [(ngModel)]="calorias"
+          [ngModelOptions]="{ standalone: true }"
+          step="0.01"
+        />
+        <div class="addon">kcal.</div>
+      </div>
+
+      @if (errores['calorias']) {
+        <div class="text-start error-message text-red-500 text-sm -mt-7  ml-2">{{ errores['calorias'] }}</div>
+      }
+
+      <div class="input-with-text">
+        <select
+          name="categoria"
+          [class.error]="errorRegistro"
+          class="custom-selector"
+          required
+          [(ngModel)]="categoria"
+          [ngModelOptions]="{ standalone: true }"
+        >
+          <option [ngValue]="null" disabled selected>
+            Selecciona una categoría
+          </option>
+          <option value="DESAYUNO">Desayuno</option>
+          <option value="ALMUERZO">Almuerzo</option>
+          <option value="CENA">Cena</option>
+          <option value="POSTRES">Postres</option>
+          <option value="SUPERAVIT">Superavit</option>
+          <option value="DEFICIT">Deficit</option>
+
+        </select>
+      </div>
+
+      @if (errores['categoria']) {
+        <div class="text-start error-message text-red-500 text-sm -mt-7 mb-6 ml-2">{{ errores['categoria'] }}</div>
+      }
+    </div>
+
+    <div class="column w-full lg:w-1/3 p-4">
+      <h3>Escribe los ingredientes:</h3>
+      <h4>Uno por uno junto a sus medidas o especificaciones</h4>
+      <div id="ingredients" class="input-container">
+        @for (ingrediente of ingredientes; track $index) {
+          <div class="input-row">
+            <input
+              type="text"
+              [class.error]="errorRegistro || !ingrediente.ingrediente"
+              [ngModelOptions]="{ standalone: true }"
+              [(ngModel)]="ingrediente.ingrediente"
+              placeholder="Ingrediente Nº{{ $index + 1 }}"
+              maxlength="20"
+              required
+            />
+            <button
+              type="button"
+              class="delete-button"
+              (click)="eliminarIngrediente($index)"
+            >
+              -
+            </button>
+          </div>
+        }
+      </div>
+      <button type="button" class="add-button2" (click)="agregarIngrediente()">
+        +
+      </button>
+
+      @if (errores['ingredientes']) {
+        <div class="text-start error-message text-red-500 text-sm mt-5 mb-4 ml-2">{{ errores['ingredientes'] }}</div>
+      }
+
+    </div>
+
+
+
+    <div class="column w-full lg:w-1/3 p-4">
+      <h3>Escribe las instrucciones:</h3>
+      <h4>Uno por uno sin guías de orden</h4>
+      <div id="steps" class="input-container">
+        @for (instruccion of instrucciones; track $index) {
+          <div class="input-row">
+          <textarea
+            [class.error]="errorRegistro || !instruccion.instruccion"
+            [ngModelOptions]="{ standalone: true }"
+            [(ngModel)]="instruccion.instruccion"
+            placeholder="Paso Nº{{ $index + 1 }} *"
+            rows="5"
+            maxlength="150"
+          ></textarea>
+            <button
+              type="button"
+              class="delete-button"
+              (click)="eliminarPaso($index)"
+            >
+              -
+            </button>
+          </div>
+        }
+      </div>
+      <button type="button" class="add-button" (click)="agregarPaso()">
+        +
+      </button>
+
+      @if (errores['instrucciones']) {
+        <div class="text-start error-message text-red-500 text-sm mt-5 mb-4 ml-2">{{ errores['instrucciones'] }}</div>
+      }
+    </div>
+  </form>
+
+  <div class="button-container">
+    <button
+      (click)="validarCamposYPublicar()"
+      [disabled]="cargando"
+      type="button"
+      class="orange-button"
+    >
+      @if (!cargando) {
+        <span>Publicar</span>
+      } @else {
+        <span>Procesando...</span>
+      }
+    </button>
+    <p class="small-text">* Los campos obligatorios deben ser completados</p>
+
+    @if (errorRegistro) {
+      <p class="error-message">{{ messageErrorRegistro }}</p>
+    }
+  </div>
+
+  @if (mostrarModalPublicado) {
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center" >
+      <div class="bg-white p-4 rounded-md shadow-lg">
+        <p class="text-2xl font-bold mb-4">¡Receta Publicada!</p>
+        <p>
+          Se publicó exitosamente, podrás revisarlo en la sección de Explorar
+          Recetas.
+        </p>
+        <button
+          (click)="cerrarModalPublicado()"
+          class="orange-button bg-blue-500 text-white px-4 py-2 mt-4 rounded"
+        >
+          Cerrar
+        </button>
+      </div>
+    </div>
+  }
+
+</main>

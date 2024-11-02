@@ -1,0 +1,72 @@
+<main class="flex flex-col items-center">
+
+  <div class=" lg:py-20 py-10 flex flex-col items-center justify-center">
+    <h2 class="mb-5 lg:text-2xl text-xl lg:font-normal font-semibold text-center mt-5">Ingresa a la Gran <br> Comunidad Saludable de FoodHub</h2>
+    <div class="bg-white px-10 py-6 shadow-lg lg:w-[500px] w-[350px]">
+      <p class="mb-4 text-xm text-center">Ingresa tus datos registrados</p>
+
+      <form class="flex flex-col" (ngSubmit)="iniciarSesion()">
+
+        <input maxlength="30" type="text" placeholder="Ingrese Correo de Colegiado *" [(ngModel)]="authDTO.identificador" name="identificador" required class="p-2 mb-4 border border-gray-300 rounded-xl">
+
+        @if(errorIdentificador){
+          <div class="text-start error-message text-red-500 text-sm -mt-3 mb-4 ml-2">{{ mensajeErrorIdentificador }}</div>
+        }
+
+
+        <input maxlength="15" type="password" placeholder="Ingrese Contraseña *" [(ngModel)]="authDTO.contrasenia" name="contrasenia" required class="p-2 mb-4 border border-gray-300 rounded-xl" (ngModelChange)="validarContrasenia($event)">
+
+        @if(errorContrasenia){
+          <div class="text-start error-message text-red-500 text-sm -mt-3 mb-4 ml-2">{{ mensajeErrorContrasenia }}</div>
+        }
+
+        <p class="obligatorio-texto text-xs text-gray-500 mt-2 text-center mr-2">* Los campos obligatorios deben ser completados</p>
+
+
+        <button type="submit" class="bg-[#ee8326] hover:bg-[#c76d21] text-white py-1 mt-5 w-48 mx-auto font-semibold text-lg rounded-2xl">
+          Ingresar
+        </button>
+
+        @if(errorRegistro){
+          <div class="text-center error-message text-red-500 text-sm mt-3">{{ mensajeError }}</div>
+        }
+
+        @if (true) {
+          <p class="error-message text-red-500 text-sm mt-2"></p>
+        }
+
+        <div class="separador bg-black h-px my-4 mb-5"></div>
+
+      </form>
+
+      <div class="flex flex-col">
+        
+
+      <p class="text-center text-xm">Si aún no tienes una cuenta, entonces ¡Crea una!</p>
+
+        <button [routerLink]="['/cocinaTuCuenta']"
+                class="bg-[#ee8326] hover:bg-[#c76d21] text-white py-1 mt-5 w-48 mx-auto font-semibold text-lg rounded-2xl mb-3">
+          ¡Cocina tu Cuenta!
+        </button> 
+      </div>
+
+    </div>
+
+  </div>
+
+  @if(mostrarModalSesionExpirada){
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
+      <div class="bg-white p-6 rounded-3xl shadow-2xl w-72 sh">
+        <p class="text-2xl font-semibold mb-4 text-center" style="color: #64B43E">Ups!..</p>
+        <div class="mx-auto">
+          <p class="text-justify">Parece que no estas logueado o tu tiempo de sesion se acabo. Porfavor vuelve a ingresar tus datos.</p>
+        </div>
+        <div class="flex justify-center">
+          <button (click)="cerrarModalSesionExpirada()" class="bg-[#ee8326] hover:bg-[#c76d21] font-semibold text-white px-6 py-1 mt-5 text-lg rounded-2xl">Empezar</button>
+        </div>
+      </div>
+    </div>
+
+  }
+
+</main>

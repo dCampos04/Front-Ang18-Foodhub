@@ -1,0 +1,39 @@
+<div class="flex flex-col min-h-full">
+  <!-- Contenedor de recetas -->
+  <div class="flex flex-wrap justify-start ml-7 flex-grow">
+    @if (recipes.length === 0) {
+      <div class="text-center w-full h-full mt-10 ">
+        <p class="text-lg font-semibold">
+          {{ mensajeError }}
+        </p>
+      </div>
+    }
+
+    <!-- *ngFor para recorrer las recetas -->
+    <div
+      *ngFor="let recipe of recipes | paginate: { itemsPerPage: 6, currentPage: page }"
+      class="cursor-pointer card rounded-2xl w-full lg:w-[calc(32%-20px)] h-[375px] shadow-lg transition-transform duration-300 ease-in-out mt-10 mr-5 ml-2 flex flex-col bg-white hover:scale-105"
+      (click)="verContenido(recipe)"
+    >
+      <img
+        [src]="urlImages + recipe.imagenReceta"
+        [alt]="recipe.titulo"
+        class="w-full h-[250px] object-cover"
+      />
+
+      <div class="p-4">
+        <h3 class="m-0 text-lg font-bold line-clamp-1">{{ recipe.titulo }}</h3>
+        <p class="my-2 text-justify text-sm line-clamp-2">{{ recipe.descripcion }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paginación en la parte inferior -->
+  <div class="pagination py-2 text-center mt-auto">
+    <pagination-controls
+      (pageChange)="page = $event"
+      previousLabel="Anterior"
+      nextLabel="Siguiente"
+    ></pagination-controls>
+  </div>
+</div>

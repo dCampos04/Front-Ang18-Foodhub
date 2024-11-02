@@ -1,0 +1,107 @@
+<main class="flex flex-col items-center">
+  <div class=" lg:py-20 py-10 flex flex-col items-center justify-center">
+
+    <h2 class="mb-5 lg:text-2xl text-xl lg:font-normal font-semibold text-center -mt-5">Regístrate y Sé parte de FoodHub</h2>
+
+    <div class=" bg-white px-10 py-6 shadow-lg lg:w-[500px] w-[350px]">
+
+
+    <div class="items-center text-center justify-center">
+        <h3 class="mb-4 text-center lg:text-2xl text-xl border-b-4 border-orange-500 inline-block pb-1 mx-auto">Conviértete en Creador</h3>
+      </div>
+
+
+      <p class="mb-4 text-sm hidden lg:block text-start">Un creador es un nutricionista, para crear una cuenta debes  <br> validar tu código de colegiado.</p>
+
+      <p class="mb-4 text-sm lg:hidden text-start">Un creador es un nutricionista, para crear una cuenta debes  validar tu código de colegiado.</p>
+
+      <form (ngSubmit)="registrarCreador()" class="flex flex-col">
+
+        <!-- Nombres -->
+        <input maxlength="30" type="text" placeholder="Ingrese sus Nombres *" id="nombre" required name="nombre" [(ngModel)]="creadorDTO.nombre"
+               class="p-2 mb-4 border border-gray-300 rounded-xl">
+
+        @if(errorNombre){
+          <div class="error-message text-red-500 text-sm -mt-3 mb-3 ml-2">{{ mensajeErrorNombre }}</div>
+        }
+
+
+        <!-- Apellido Paterno -->
+        <input maxlength="20" type="text" placeholder="Ingrese Apellido Paterno *" id="apellidoPaterno" required name="apellidoPaterno" [(ngModel)]="creadorDTO.apellidoPaterno" class="p-2 mb-4 border border-gray-300 rounded-xl">
+
+
+        @if(errorApellidoPaterno){
+          <div  class="error-message text-red-500 text-sm -mt-3 mb-3 ml-2">{{ mensajeErrorApellidoPaterno }}</div>
+        }
+
+
+        <!-- Apellido Materno -->
+        <input maxlength="20" type="text" placeholder="Ingrese Apellido Materno *" id="apellidoMaterno" required name="apellidoMaterno" [(ngModel)]="creadorDTO.apellidoMaterno" class="p-2 mb-4 border border-gray-300 rounded-xl">
+
+        @if(errorApellidoMaterno){
+          <div class="error-message text-red-500 text-sm -mt-3 mb-3 ml-2">{{ mensajeErrorApellidoMaterno }}</div>
+        }
+
+
+        <!-- Correo Electrónico -->
+        <input maxlength="30" type="email" placeholder="Ingrese Correo Electrónico *" id="correoElectronico" required name="correoElectronico" [(ngModel)]="creadorDTO.correoElectronico" class="p-2 mb-4 border border-gray-300 rounded-xl">
+
+        @if(errorCorreo){
+          <div class="error-message text-red-500 text-sm -mt-3 mb-3 ml-2">{{ mensajeErrorCorreo }}</div>
+        }
+
+
+        <!-- Contraseña -->
+        <input maxlength="15" type="password" placeholder="********" id="contrasenia" required name="contrasenia" [(ngModel)]="creadorDTO.contrasenia" class="p-2 mb-4 border border-gray-300 rounded-xl" (ngModelChange)="validarContrasenia($event)">
+
+         @if(errorContrasenia){
+           <div class="error-message text-red-500 text-sm -mt-3 mb-3 ml-2">{{ mensajeErrorContrasenia }}</div>
+         }
+
+        <!-- Código de Colegiatura -->
+        <input maxlength="6" type="text" placeholder="012345" maxlength="6" id="codigoColegiatura" required name="codigoColegiatura" [(ngModel)]="creadorDTO.codigoColegiatura" class="p-2 mb-4 border border-gray-300 rounded-xl">
+
+        @if(errorCodigoColegiatura){
+          <div class="error-message text-red-500 text-sm -mt-3 mb-3 ml-2">{{ mensajeErrorCodigoColegiatura }}</div>
+        }
+
+        <p class="text-xs text-gray-400 -my-3 ml-2">Ejm: 0012345</p>
+
+        <!-- Botón de enviar -->
+        <button type="submit" [disabled]="cargando" class="bg-[#ee8326] hover:bg-[#c76d21] text-white py-1 mt-5 w-32 mx-auto font-semibold text-lg rounded-2xl">
+         @if(!cargando){
+           <span>Crear</span>
+         } @else {
+           <span>Procesando...</span>
+         }
+        </button>
+
+
+        <p class="text-xs text-gray-500 mt-2 text-center">* Los campos obligatorios deben ser llenados.</p>
+        @if(errorRegistro){
+          <div class="text-center error-message text-red-500 text-sm mt-2">{{ mensajeError }}</div>
+
+        }
+
+      </form>
+    </div>
+
+    <!-- Modal -->
+
+    @if(mostrarModalCuentaCreada){
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
+        <div class="bg-white p-6 rounded-3xl shadow-2xl w-72 sh">
+          <p class="text-2xl font-semibold mb-4 text-center" style="color: #64B43E">Registro Exitoso</p>
+          <div class="mx-auto">
+            <p class="text-justify">Te enviamos un mensaje a tu correo electrónico. Pero desde ya busca todas las recetas que desees.</p>
+          </div>
+          <div class="flex justify-center">
+            <button (click)="cerrarModalCuentaCreada()" class="bg-[#ee8326] hover:bg-[#c76d21] font-semibold text-white px-6 py-1 mt-5 text-lg rounded-2xl">Listo</button>
+          </div>
+        </div>
+      </div>
+
+    }
+  </div>
+
+</main>
