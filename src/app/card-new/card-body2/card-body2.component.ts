@@ -16,6 +16,7 @@ import { Observable } from 'rxjs';
 export class CardBody2Component implements OnInit {
   public recetaDTO!: RecetaBodyDTO;
   public imageUrl: string = '';
+  public fotoUrl: string = '';
 
   constructor(
     private recetaService: RecetaService,
@@ -30,6 +31,7 @@ export class CardBody2Component implements OnInit {
         (data) => {
           this.recetaDTO = data;
           this.loadImage(recetaId);
+          this.loadFoto(recetaId);
         },
         (error) => {
           console.error('Error al obtener receta:', error);
@@ -45,7 +47,19 @@ export class CardBody2Component implements OnInit {
         this.imageUrl = url; // Asigna la URL creada a la propiedad de la imagen
       },
       (error) => {
-        console.error('Error al obtener la imagen:', error);
+        console.error('Error al obtener imagen receta:', error);
+      }
+    );
+  }
+
+  loadFoto(id: number) {
+    this.recetaService.obtenerImagenAutor(id).subscribe(
+      (blob) => {
+        const url = window.URL.createObjectURL(blob);
+        this.fotoUrl = url; // Asigna la URL creada a la propiedad de la imagen
+      },
+      (error) => {
+        console.error('Error al obtener foto perfil:', error);
       }
     );
   }

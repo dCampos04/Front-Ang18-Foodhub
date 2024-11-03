@@ -54,4 +54,11 @@ export class RecetaService {
       withCredentials: true
     });
   }
+
+  obtenerImagenAutor(idReceta: number): Observable<Blob> {
+    return this.http.get(`${this.baseUrl}/${idReceta}/foto-autor`, {
+      responseType: 'blob', // Define la respuesta como blob (binaria)
+      withCredentials: true
+    });
+  }
 }
