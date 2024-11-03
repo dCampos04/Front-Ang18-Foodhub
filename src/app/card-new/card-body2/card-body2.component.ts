@@ -4,6 +4,7 @@ import { TitleCasePipe } from '@angular/common';
 import { environment } from '../../../environments/environment';
 import { RecetaService } from '../../services/receta.service';
 import { RecetaBodyDTO } from '../../interfaces/RecetaBodyDTO';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-card-body2',
@@ -13,8 +14,8 @@ import { RecetaBodyDTO } from '../../interfaces/RecetaBodyDTO';
   styleUrl: './card-body2.component.css',
 })
 export class CardBody2Component implements OnInit {
-  public urlImages: string = `${environment.apiUrl}/imagenes/`;
   public recetaDTO!: RecetaBodyDTO;
+  public imageUrl: string = '';
 
   constructor(
     private recetaService: RecetaService,
@@ -28,14 +29,25 @@ export class CardBody2Component implements OnInit {
       this.recetaService.verReceta(recetaId).subscribe(
         (data) => {
           this.recetaDTO = data;
+          this.loadImage(recetaId);
         },
         (error) => {
           console.error('Error al obtener receta:', error);
         }
       );
     });
+  }
 
-
+  loadImage(id: number) {
+    this.recetaService.obtenerUrlImage(id).subscribe(
+      (blob) => {
+        const url = window.URL.createObjectURL(blob);
+        this.imageUrl = url; // Asigna la URL creada a la propiedad de la imagen
+      },
+      (error) => {
+        console.error('Error al obtener la imagen:', error);
+      }
+    );
   }
 
   goBack() {
@@ -48,7 +60,7 @@ export class CardBody2Component implements OnInit {
 
     // Añade un espacio cada 15 caracteres si el texto no tiene espacios
     if (!/\s/.test(texto)) {
-      texto = texto.replace(/(.{20})/g,'$1 ');
+      texto = texto.replace(/(.{20})/g, '$1 ');
     }
 
     return texto;

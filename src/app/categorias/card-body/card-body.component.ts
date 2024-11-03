@@ -3,7 +3,6 @@ import { RecetaDTO } from '../../interfaces/RecetaDTO';
 import { RecetaService } from '../../services/receta.service';
 import { ActivatedRoute } from '@angular/router';
 import { SharedService } from '../../services/shared.service';
-import { environment } from '../../../environments/environment.development';
 import {TitleCasePipe} from "@angular/common";
 
 @Component({
@@ -16,7 +15,6 @@ import {TitleCasePipe} from "@angular/common";
   styleUrl: './card-body.component.css',
 })
 export class CardBodyComponent implements OnInit {
-  public urlImages: string = `${environment.apiUrl}/imagenes/`;
   public recetaDTO!: RecetaDTO;
 
   constructor(

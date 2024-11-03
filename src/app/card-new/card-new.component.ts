@@ -27,7 +27,6 @@ import {RecetaBodyDTO} from "../interfaces/RecetaBodyDTO";
 export class CardNewComponent implements OnInit {
   title = 'categorias';
 
-  public urlImages: string = `${environment.apiUrl}/imagenes/`;
   public recetaDTO!: RecetaBodyDTO;
 
   public isCreador: boolean = false;

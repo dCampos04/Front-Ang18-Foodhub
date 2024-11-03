@@ -13,7 +13,7 @@
         <label for="fileInput" class="w-36 h-36 rounded-full overflow-hidden mb-4 cursor-pointer relative">
           <!-- Imagen de perfil con efecto hover -->
           <img
-            [src]="creadorDTO.fotoPerfil ? (urlImages + creadorDTO.fotoPerfil) : '/default-profile-image.jpg'"
+            [src]="imageUrl ? imageUrl : '/default-profile-image.jpg'"
             alt="Foto de perfil"
             class="w-full h-full object-cover transition duration-300 ease-in-out"
           />

@@ -16,10 +16,10 @@ import {RecetaService} from "../../services/receta.service";
 })
 export class BodyCategoriaComponent implements OnInit {
   @Input() categoria!: string; // Recibirá la categoría como entrada
-  public urlImages: string = `${environment.apiUrl}/imagenes/`;
   public page!: number;
   public recipes: RecetaCategoriaDTO[] = [];
   public mensajeError: string = '';
+  public imageUrls: { [key: number]: string } = {};
 
   constructor(
     private router: Router,
@@ -36,6 +36,7 @@ export class BodyCategoriaComponent implements OnInit {
     this.recetaService.mostrarRecetasPorCategoria(categoria).subscribe(
       (recetas) => {
         this.recipes = recetas;
+        this.loadImage(this.recipes);
         if (this.recipes.length === 0) {
           // Mostrar mensaje si no hay recetas en esta categoría
           this.mensajeError = `No hay recetas en la categoría "${categoria}" por el momento.`;
@@ -52,6 +53,20 @@ export class BodyCategoriaComponent implements OnInit {
     this.sharedService.setrecetaAlmacenada(recipe.id);
     this.router.navigate(['/cardBody2/' + recipe.id]);
     console.log(`idRecipe: ${recipe.id}`);
+  }
+
+  loadImage(recipes: RecetaCategoriaDTO[]) {
+    recipes.forEach(recipe => {
+      this.recetaService.obtenerUrlImage(recipe.id).subscribe(
+        (blob) => {
+          const url = window.URL.createObjectURL(blob);
+          this.imageUrls[recipe.id] = url; // Asigna la URL creada a cada receta por su ID
+        },
+        (error) => {
+          console.error(`Error al obtener la imagen para receta ${recipe.id}:`, error);
+        }
+      );
+    });
   }
 }
 

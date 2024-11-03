@@ -16,7 +16,7 @@
         (click)="verContenido(recipe)"
       >
         <img
-          [src]="urlImages + recipe.imagenReceta"
+          [src]="imageUrls[recipe.id]"
           [alt]="recipe.titulo"
           class="w-full h-[250px] object-cover"
         />

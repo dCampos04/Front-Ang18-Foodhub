@@ -27,11 +27,11 @@ export class HeaderCreadorComponent implements OnInit{
     codigoColegiatura: '',
     fotoPerfil: '',
   };
-  public urlImages: string = `${environment.apiUrl}/imagenes/`;
 
   showHeader: boolean = true;
 
   public tipo: string = '';
+  public imageUrl: string = '';
 
   constructor(private sharedService: SharedService, private router: Router, private creadorService: CreadorService) {}
 
@@ -50,7 +50,22 @@ export class HeaderCreadorComponent implements OnInit{
   obtenerDatosPerfilCreador() {
     this.creadorService.verPerfil().subscribe((response) => {
       this.creadorDTO = response;
+      this.loadImage();
     });
+  }
+
+  loadImage() {
+    this.creadorService.obtenerFotoPerfil().subscribe(
+      (blob) => {
+        const url = window.URL.createObjectURL(blob);
+        console.log(url);
+        this.imageUrl = url; // Asigna la URL creada a la propiedad de la imagen
+        console.log(this.imageUrl);
+      },
+      (error) => {
+        console.error('Error al obtener la imagen:', error);
+      }
+    );
   }
 
 

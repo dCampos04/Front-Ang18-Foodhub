@@ -37,4 +37,11 @@ export class CreadorService {
       return throwError(error);
     }));
   }
+
+  obtenerFotoPerfil(): Observable<Blob> {
+    return this.http.get(`${this.baseUrl}/FotoPerfil`, {
+      responseType: 'blob', // Define la respuesta como blob (binaria)
+      withCredentials: true
+    });
+  }
 }

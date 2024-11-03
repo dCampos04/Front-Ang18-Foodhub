@@ -16,26 +16,42 @@ export class RecetaService {
 
   crearReceta(recetaDTO: RecetaDTO, file: File): Observable<any> {
     const formData: FormData = new FormData();
-  
+
     // Convertir recetaDTO a JSON y añadirla al FormData
-    formData.append('receta', new Blob([JSON.stringify(recetaDTO)], {
-      type: 'application/json'
-    }));
-  
+    formData.append(
+      'receta',
+      new Blob([JSON.stringify(recetaDTO)], {
+        type: 'application/json',
+      })
+    );
+
     // Añadir el archivo de imagen al FormData
     formData.append('imagen', file);
-  
-    return this.http.post<any>(`${this.baseUrl}/crear`, formData, { withCredentials: true });
+
+    return this.http.post<any>(`${this.baseUrl}/crear`, formData, {
+      withCredentials: true,
+    });
   }
 
   mostrarRecetasPorCategoria(
     categoria: string
   ): Observable<RecetaCategoriaDTO[]> {
     return this.http.get<RecetaCategoriaDTO[]>(
-      `${this.baseUrl}/recetas?categoria=${categoria}`, { withCredentials: true });
+      `${this.baseUrl}/recetas?categoria=${categoria}`,
+      { withCredentials: true }
+    );
   }
 
   verReceta(idReceta: number): Observable<RecetaBodyDTO> {
-    return this.http.get<RecetaBodyDTO>(`${this.baseUrl}/${idReceta}`, { withCredentials: true });
+    return this.http.get<RecetaBodyDTO>(`${this.baseUrl}/${idReceta}`, {
+      withCredentials: true,
+    });
+  }
+
+  obtenerUrlImage(idReceta: number): Observable<Blob> {
+    return this.http.get(`${this.baseUrl}/${idReceta}/imagen`, {
+      responseType: 'blob', // Define la respuesta como blob (binaria)
+      withCredentials: true
+    });
   }
 }

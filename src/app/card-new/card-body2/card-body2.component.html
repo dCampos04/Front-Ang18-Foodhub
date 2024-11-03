@@ -31,7 +31,7 @@
           <div class="text-start ">
             <!-- Contenido de la columna 1 -->
             <img
-              [src]="urlImages + recetaDTO.imagen"
+              [src]="imageUrl"
               [alt]="recetaDTO.titulo | titlecase"
               class="w-[450px] h-[320px] object-cover"
             />
@@ -77,7 +77,7 @@
                   <!-- Foto de perfil con tamaño fijo -->
                   <img
                     [src]="recetaDTO.fotoPerfil
-                      ? urlImages + recetaDTO.fotoPerfil
+                      ? recetaDTO.fotoPerfil
                       : '/default-profile-image.jpg'"
                     alt="Foto de perfil"
                     class="rounded-3xl h-12 w-12 object-cover mr-2"
