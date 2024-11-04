@@ -32,6 +32,7 @@ export class HeaderCreadorComponent implements OnInit{
 
   public tipo: string = '';
   public imageUrl: string = '';
+  public loading: boolean = true;
 
   constructor(private sharedService: SharedService, private router: Router, private creadorService: CreadorService) {}
 
@@ -58,12 +59,12 @@ export class HeaderCreadorComponent implements OnInit{
     this.creadorService.obtenerFotoPerfil().subscribe(
       (blob) => {
         const url = window.URL.createObjectURL(blob);
-        console.log(url);
         this.imageUrl = url; // Asigna la URL creada a la propiedad de la imagen
-        console.log(this.imageUrl);
+        this.loading = false;
       },
       (error) => {
         console.error('Error al obtener la imagen:', error);
+        this.loading = false;
       }
     );
   }

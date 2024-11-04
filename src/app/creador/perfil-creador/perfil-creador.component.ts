@@ -36,6 +36,7 @@ export class PerfilCreadorComponent implements OnInit, OnDestroy {
   public errorImagenPerfil: string = '';
   public statusImagenPerfil: boolean = false;
   public imageUrl: string = '';
+  public loading: boolean = true;
 
   suscription: Subscription = new Subscription();
 
@@ -83,12 +84,12 @@ export class PerfilCreadorComponent implements OnInit, OnDestroy {
     this.creadorService.obtenerFotoPerfil().subscribe(
       (blob) => {
         const url = window.URL.createObjectURL(blob);
-        console.log(url);
         this.imageUrl = url; // Asigna la URL creada a la propiedad de la imagen
-        console.log(this.imageUrl);
+        this.loading = false;
       },
       (error) => {
         console.error('Error al obtener la imagen:', error);
+        this.loading = false;
       }
     );
   }

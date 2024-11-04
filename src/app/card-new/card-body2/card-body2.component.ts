@@ -17,6 +17,8 @@ export class CardBody2Component implements OnInit {
   public recetaDTO!: RecetaBodyDTO;
   public imageUrl: string = '';
   public fotoUrl: string = '';
+  public loadingRecetaImage: boolean = true;
+  public loadingPhoto: boolean = true;
 
   constructor(
     private recetaService: RecetaService,
@@ -45,9 +47,11 @@ export class CardBody2Component implements OnInit {
       (blob) => {
         const url = window.URL.createObjectURL(blob);
         this.imageUrl = url; // Asigna la URL creada a la propiedad de la imagen
+        this.loadingRecetaImage = false;
       },
       (error) => {
         console.error('Error al obtener imagen receta:', error);
+        this.loadingRecetaImage = false;
       }
     );
   }
@@ -57,9 +61,11 @@ export class CardBody2Component implements OnInit {
       (blob) => {
         const url = window.URL.createObjectURL(blob);
         this.fotoUrl = url; // Asigna la URL creada a la propiedad de la imagen
+        this.loadingPhoto = false;
       },
       (error) => {
         console.error('Error al obtener foto perfil:', error);
+        this.loadingPhoto = false;
       }
     );
   }

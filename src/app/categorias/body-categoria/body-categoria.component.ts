@@ -20,6 +20,7 @@ export class BodyCategoriaComponent implements OnInit {
   public recipes: RecetaCategoriaDTO[] = [];
   public mensajeError: string = '';
   public imageUrls: { [key: number]: string } = {};
+  public loading: boolean = true;
 
   constructor(
     private router: Router,
@@ -61,9 +62,11 @@ export class BodyCategoriaComponent implements OnInit {
         (blob) => {
           const url = window.URL.createObjectURL(blob);
           this.imageUrls[recipe.id] = url; // Asigna la URL creada a cada receta por su ID
+          this.loading = false;
         },
         (error) => {
           console.error(`Error al obtener la imagen para receta ${recipe.id}:`, error);
+          this.loading = false;
         }
       );
     });

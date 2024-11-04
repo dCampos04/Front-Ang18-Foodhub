@@ -38,11 +38,19 @@
     @if(showHeader){
       <div class="absolute right-2 flex items-center mt-3">
         <a [routerLink]="['/ingresar/miPerfil']">
-          <img
+          @if (loading) {
+            <img
+            [src]="imageUrl ? imageUrl : '/default-profile-image.jpg'"
+            alt="Foto de perfil"
+            class="animate-pulse w-14 h-14 object-cover transition duration-300 ease-in-out rounded-full mr-10 bg-gray-300"
+          />
+          } @else {
+            <img
             [src]="imageUrl ? imageUrl : '/default-profile-image.jpg'"
             alt="Foto de perfil"
             class="w-14 h-14 object-cover transition duration-300 ease-in-out rounded-full mr-10"
           />
+          }
         </a>
       </div>
 
